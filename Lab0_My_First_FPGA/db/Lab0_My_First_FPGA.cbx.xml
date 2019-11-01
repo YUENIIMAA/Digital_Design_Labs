@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="Lab0_My_First_FPGA">
+		<CBX_INST_ENTRY INSTANCE_NAME="|Lab0_My_First_FPGA|Counter_BUS_MUX:inst3|lpm_mux:LPM_MUX_component" CBX_FILE_NAME="mux_sjc.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
