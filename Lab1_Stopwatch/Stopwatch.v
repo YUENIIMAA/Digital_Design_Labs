@@ -75,8 +75,7 @@ module stopwatch(clk,key_reset,key_start_pause,key_display_stop,
  always @ (posedge clk) // 每一个时钟上升沿开始触发下面的逻辑，
                         // 进行计时后各部分的刷新工作
  begin
-  // TODO:把这里填满。
-  // 复位键
+  // 开始/停止计时键
   if ((key_start_pause && !start_1_time) || (!key_start_pause && start_1_time)) begin
    counter_start <= counter_start + 1;
    if (counter_start > DELAY_TIME) begin
@@ -89,7 +88,7 @@ module stopwatch(clk,key_reset,key_start_pause,key_display_stop,
    counter_start <= 0;
   end
 
-  // 暂停计时
+  // 复位键
   if ((key_reset && !reset_1_time) || (!key_reset && reset_1_time)) begin
    counter_reset <= counter_reset + 1;
    if (counter_reset > DELAY_TIME) begin
@@ -136,9 +135,9 @@ module stopwatch(clk,key_reset,key_start_pause,key_display_stop,
     msecond_counter_low <= msecond_counter_low + 1;
     if (msecond_counter_low == 10) begin
      msecond_counter_low <= 1; // 按照常识此处应该是0，
-	                            // 但是通过观察发现到0之后由于进行了各种进位造成了延迟，
-										 // 放大一百倍后发现延迟大概是跳变一个数字的时间，因此直接从1开始来减少误差
-										 // 虽然用户无法看到XX:XX:X0的情况但是计时更加准确了。
+                               // 但是通过观察发现到0之后由于进行了各种进位造成了延迟，
+                               // 放大一百倍后发现延迟大概是跳变一个数字的时间，因此直接从1开始来减少误差
+                               // 虽然用户无法看到XX:XX:X0的情况但是计时更加准确了。
      msecond_counter_high <= msecond_counter_high + 1;
     end
     if (msecond_counter_high == 10) begin
@@ -161,7 +160,7 @@ module stopwatch(clk,key_reset,key_start_pause,key_display_stop,
   end
   if (display && msecond_counter_low < 10) begin // 后来增加了ms低位小于10的判断，
                                                  // 发现由于计时器自增的部分为了不增加延迟没用阻塞
-																 // 导致此处会出现msecond_counter_low超出9的情况（体现在板上就是末尾灭灯，也和“其它数字灭灯”的设计吻合）
+                                                 // 导致此处会出现msecond_counter_low超出9的情况（体现在板上就是末尾灭灯，也和“其它数字灭灯”的设计吻合）
    minute_display_high = minute_counter_high;
    minute_display_low = minute_counter_low;
    second_display_high = second_counter_high;
